@@ -108,7 +108,17 @@ namespace Serializer
             if (field == null)
                 return;
             if (type.IsPrimitive || type.FullName == "System.String")
-                field.Value = reader.Read(field.Name, type);
+            {
+                Object val = reader.Read(field.Name, type);
+                if (val != null)
+                {
+                    if (val == "")
+                        field.Value = null;
+                    else
+                        field.Value = val;
+                }
+
+            }
             else if (type.GetInterface("ICollection") != null)
             {
                 if (reader.FindAndPushGroup(field.Name))
@@ -128,8 +138,6 @@ namespace Serializer
                     }
                     reader.PopGroup();
                 }
-                else
-                    field.Value = null;
             }
             else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(KeyValuePair<Object, Object>).GetGenericTypeDefinition())
             {
@@ -147,8 +155,6 @@ namespace Serializer
                     unserializeMethod.MakeGenericMethod(type).Invoke(this, new Object[] { field.Value, reader });
                     reader.PopGroup();
                 }
-                else
-                    field.Value = null;
             }
         }
     }

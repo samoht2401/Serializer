@@ -31,7 +31,7 @@ namespace Serializer
             if (node == null || node.NodeType != XmlNodeType.Element)
                 return null;
             currentNode.RemoveChild(node);
-            Object result = null;
+            Object result = "";
             if (type == typeof(byte))
                 result = byte.Parse(node.InnerText);
             if (type == typeof(int))
