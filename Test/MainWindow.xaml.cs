@@ -31,7 +31,7 @@ namespace Test
 
         private void Button_Click_Save(object sender, RoutedEventArgs e)
         {
-            FileStream stream = File.Create("C:\\Users\\Thomas\\Documents\\Visual Studio 2010\\Projects\\Serializer\\Test\\bin\\Debug\\test.txt");
+            FileStream stream = File.Create("C:\\Users\\Thomas\\Documents\\GitHub\\Serializer\\Test\\bin\\Debug\\test.txt");
             StreamWriter writer = new StreamWriter(stream);
             manager.Serialize<TestClass>(testClass, "Test", new XMLWriter(writer));
             writer.Flush();
@@ -40,7 +40,7 @@ namespace Test
 
         private void Button_Click_Load(object sender, RoutedEventArgs e)
         {
-            FileStream stream = File.OpenRead("C:\\Users\\Thomas\\Documents\\Visual Studio 2010\\Projects\\Serializer\\Test\\bin\\Debug\\test.txt");
+            FileStream stream = File.OpenRead("C:\\Users\\Thomas\\Documents\\GitHub\\Serializer\\Test\\bin\\Debug\\test.txt");
             StreamReader reader = new StreamReader(stream);
             manager.Unserialize<TestClass>(testClass, "Test", new XMLReader(reader));
             reader.Close();
