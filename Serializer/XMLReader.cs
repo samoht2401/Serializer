@@ -12,21 +12,31 @@ namespace Serializer
     {
         private XmlDocument xmlDoc;
         private XmlNode currentNode;
+        private bool cantLoad;
 
         public XMLReader(StreamReader r)
             : base(r)
         {
             xmlDoc = new XmlDocument();
             currentNode = xmlDoc;
+            cantLoad = false;
         }
 
         public override void Start()
         {
-            xmlDoc.Load(reader);
+            try {
+                xmlDoc.Load(reader);
+            }
+            catch (Exception ex) 
+            {
+                cantLoad = true;
+            }
         }
 
         public override Object Read(String fieldName, Type type)
         {
+            if (cantLoad)
+                return null;
             XmlNode node = currentNode.SelectSingleNode(fieldName);
             if (node == null || node.NodeType != XmlNodeType.Element)
                 return null;
@@ -55,6 +65,8 @@ namespace Serializer
 
         protected override bool findAndPushGroup(String groupName)
         {
+            if (cantLoad)
+                return false;
             XmlNode node = currentNode.SelectSingleNode(groupName);
             if (node == null || node.NodeType != XmlNodeType.Element)
                 return false;
