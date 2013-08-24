@@ -24,6 +24,12 @@ namespace Test
             }
         }
 
+        public enum Lang
+        {
+            Hello,
+            Hola
+        };
+
         [ToSerialize]
         public int entier;
 
@@ -41,6 +47,9 @@ namespace Test
 
         [ToSerialize]
         public string chaine;
+
+        [ToSerialize]
+        private Lang language = Lang.Hello;
 
         public TestClass(TestClass c)
         {

@@ -44,22 +44,24 @@ namespace Serializer
             Object result = "";
             if (type == typeof(byte))
                 result = byte.Parse(node.InnerText);
-            if (type == typeof(int))
+            else if (type == typeof(int))
                 result = int.Parse(node.InnerText);
-            if (type == typeof(long))
+            else if (type == typeof(long))
                 result = long.Parse(node.InnerText);
-            if (type == typeof(float))
+            else if (type == typeof(float))
                 result = float.Parse(node.InnerText);
-            if (type == typeof(double))
+            else if (type == typeof(double))
                 result = double.Parse(node.InnerText);
-            if (type == typeof(decimal))
+            else if (type == typeof(decimal))
                 result = decimal.Parse(node.InnerText);
-            if (type == typeof(bool))
+            else if (type == typeof(bool))
                 result = bool.Parse(node.InnerText);
-            if (type == typeof(char))
+            else if (type == typeof(char))
                 result = char.Parse(node.InnerText);
-            if (type == typeof(String))
+            else if (type == typeof(String))
                 result = node.InnerText;
+            else if (type.IsEnum)
+                result = Enum.Parse(type, node.InnerText);
             return result;
         }
 

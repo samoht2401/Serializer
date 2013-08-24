@@ -53,7 +53,7 @@ namespace Serializer
                 return;
             }
             Type type = field.Value.GetType(); ;
-            if (type.IsPrimitive || type.FullName == "System.String")
+            if (type.IsPrimitive || type.FullName == "System.String" || type.IsEnum)
                 writer.Write(field);
             else if (type.GetInterface("ICollection") != null)
             {
@@ -111,7 +111,7 @@ namespace Serializer
         {
             if (field == null)
                 return;
-            if (type.IsPrimitive || type.FullName == "System.String")
+            if (type.IsPrimitive || type.FullName == "System.String" || type.IsEnum)
             {
                 Object val = reader.Read(field.Name, type);
                 if (val != null)
