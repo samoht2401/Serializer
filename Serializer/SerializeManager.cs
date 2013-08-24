@@ -116,10 +116,10 @@ namespace Serializer
                 Object val = reader.Read(field.Name, type);
                 if (val != null)
                 {
-                    if (val == "")
-                        field.Value = null;
-                    else
+                    if (val != "" || type.FullName == "System.String")
                         field.Value = val;
+                    else
+                        field.Value = null;
                 }
 
             }
