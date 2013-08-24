@@ -86,10 +86,13 @@ namespace Serializer
             reader.End();
         }
 
-        private void unserialize<T>(T obj, Reader reader)
+        private T unserialize<T>(T obj, Reader reader)
         {
             if (obj == null)
-                return;
+            {
+                ConstructorInfo construct = typeof(T).GetConstructor(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[0], null);
+                obj = (T)construct.Invoke(new Object[] { });
+            }
             Type ty = obj.GetType();
             FieldInfo[] fields = ty.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             foreach (FieldInfo field in fields)
@@ -101,6 +104,7 @@ namespace Serializer
                 readFromReader(f, field.FieldType, reader);
                 field.SetValue(obj, f.Value);
             }
+            return obj;
         }
 
         private void readFromReader(Field<Object> field, Type type, Reader reader)
@@ -152,7 +156,7 @@ namespace Serializer
             {
                 if (reader.FindAndPushGroup(field.Name))
                 {
-                    unserializeMethod.MakeGenericMethod(type).Invoke(this, new Object[] { field.Value, reader });
+                    field.Value = unserializeMethod.MakeGenericMethod(type).Invoke(this, new Object[] { field.Value, reader });
                     reader.PopGroup();
                 }
             }

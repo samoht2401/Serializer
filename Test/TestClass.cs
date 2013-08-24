@@ -8,6 +8,22 @@ namespace Test
 {
     class TestClass
     {
+        public class SubTest
+        {
+            [ToSerialize]
+            public int nb;
+
+            private SubTest()
+            {
+                nb = 0;
+            }
+
+            public SubTest(int nb)
+            {
+                this.nb = nb;
+            }
+        }
+
         [ToSerialize]
         public int entier;
 
@@ -18,9 +34,9 @@ namespace Test
         public Dictionary<float, string> dico;
 
         [ToSerialize(Commentaire = "Voici une list")]
-        public List<String> list;
+        public List<SubTest> list;
 
-        [ToSerialize(Commentaire = "Et ici une class", SpecialName = "Coucou")]
+        //[ToSerialize(Commentaire = "Et ici une class", SpecialName = "Coucou")]
         public TestClass uneClass;
 
         [ToSerialize]
@@ -41,9 +57,9 @@ namespace Test
             dico.Add(0.9f, "90%");
             dico.Add(0.4f, "40%");
             dico.Add(1f, "100%");
-            list = new List<String>();
-            list.Add("GG!");
-            list.Add("Fançois");
+            list = new List<SubTest>();
+            list.Add(new SubTest(5));
+            list.Add(new SubTest(8));
             uneClass = c;
             chaine = "Salut!^^";
         }
